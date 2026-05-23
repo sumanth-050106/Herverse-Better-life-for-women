@@ -1,0 +1,65 @@
+.feedback-card {
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    padding: 20px;
+}
+
+.star-rating {
+    display: flex;
+    gap: 10px;
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+.star-rating i {
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.star-rating i.active {
+    color: #ffd700;
+}
+
+.star-rating i:hover,
+.star-rating i:hover ~ i {
+    color: #ffd700;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #5f27cd;
+    box-shadow: 0 0 0 0.2rem rgba(95, 39, 205, 0.25);
+}
+
+.btn-primary {
+    background-color: #5f27cd;
+    border-color: #5f27cd;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #4a1ba9;
+    border-color: #4a1ba9;
+    transform: translateY(-2px);
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.feedback-success {
+    color: #28a745;
+    text-align: center;
+    margin-top: 20px;
+    display: none;
+}
+
+.feedback-error {
+    color: #dc3545;
+    text-align: center;
+    margin-top: 20px;
+    display: none;
+}

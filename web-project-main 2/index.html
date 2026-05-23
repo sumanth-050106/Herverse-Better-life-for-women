@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herverse - Women's Safety & Wellness</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Herverse</div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container"></div>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Emergency Button -->
+    <div class="emergency-btn" data-bs-toggle="modal" data-bs-target="#emergencyModal">
+        <i class="fas fa-bell"></i>
+    </div>
+ 
+
+
+    <!-- Emergency Modal -->
+    <div class="modal fade emergency-modal" id="emergencyModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i> Emergency Alert</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to send an emergency alert? This will notify your emergency contacts with your current location.</p>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline w-50" data-bs-dismiss="modal">Cancel</button>
+                        <button class="btn btn-danger w-50" id="confirmEmergency">Send Alert</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Modal -->
+    <div class="modal fade support-modal" id="supportModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Contact Support</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Your Email</label>
+                        <input type="email" class="form-control" placeholder="email@example.com">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Subject</label>
+                        <select class="form-select">
+                            <option>Technical Support</option>
+                            <option>Account Help</option>
+                            <option>Feature Request</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Message</label>
+                        <textarea class="form-control" rows="5" placeholder="Describe your issue..."></textarea>
+                    </div>
+                    <button class="btn btn-primary w-100" id="sendSupportMessage">Send Message</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature Details Modal -->
+    <div class="modal fade feature-modal" id="featureModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="featureModalTitle">Feature Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="featureModalBody">
+                    Loading feature details...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Account Modal -->
+    <div class="modal fade account-modal" id="accountModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-user-circle me-2"></i> My Account</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="account-info">
+                        <div class="account-info-item">
+                            <div class="account-info-label">Full Name</div>
+                            <div class="account-info-value" id="modal-account-fullname">Loading...</div>
+                        </div>
+                        <div class="account-info-item">
+                            <div class="account-info-label">Email</div>
+                            <div class="account-info-value" id="modal-account-email">Loading...</div>
+                        </div>
+                        <div class="account-info-item">
+                            <div class="account-info-label">Emergency Contact</div>
+                            <div class="account-info-value" id="modal-account-emergency">Loading...</div>
+                        </div>
+                        <div class="account-info-item">
+                            <div class="account-info-label">Health Concerns</div>
+                            <div class="account-info-value" id="modal-account-health">Loading...</div>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline w-50" id="modal-edit-account-btn">Edit Information</button>
+                        <button class="btn btn-primary w-50" id="modal-save-account-btn" style="display: none;">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal fade settings-modal" id="settingsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-cog me-2"></i> Settings</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <h5><i class="fas fa-bell me-2"></i> Notification Preferences</h5>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="modal-notif-emergency" checked>
+                            <label class="form-check-label" for="modal-notif-emergency">Emergency Alerts</label>
+                        </div>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="modal-notif-health" checked>
+                            <label class="form-check-label" for="modal-notif-health">Health Reminders</label>
+                        </div>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="modal-notif-updates" checked>
+                            <label class="form-check-label" for="modal-notif-updates">App Updates</label>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5><i class="fas fa-lock me-2"></i> Security</h5>
+                        <button class="btn btn-outline" id="modal-change-password-btn">Change Password</button>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5><i class="fas fa-moon me-2"></i> Appearance</h5>
+                        <select class="form-select" id="modal-theme-select">
+                            <option value="light">Light Mode</option>
+                            <option value="dark">Dark Mode</option>
+                            <option value="system">System Default</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-primary w-100" id="modal-save-settings-btn">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Questionnaire Modal -->
+    <div class="modal fade questionnaire-modal" id="questionnaireModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-clipboard-list me-2"></i> Help Us Personalize Your Experience</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>We'd like to ask you a few questions about which Herverse apps you're interested in to better tailor your experience.</p>
+                    
+                    <div class="question">
+                        <h5>Which safety features are you most interested in?</h5>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="safety1">
+                            <label class="form-check-label" for="safety1">Emergency SOS with location sharing</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="safety2">
+                            <label class="form-check-label" for="safety2">Safe route planning with real-time alerts</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="safety3">
+                            <label class="form-check-label" for="safety3">Discreet alert mode for uncomfortable situations</label>
+                        </div>
+                    </div>
+                    
+                    <div class="question">
+                        <h5>Which wellness features would you use?</h5>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="wellness1">
+                            <label class="form-check-label" for="wellness1">Period and fertility tracking</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="wellness2">
+                            <label class="form-check-label" for="wellness2">Mental health and meditation tools</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="wellness3">
+                            <label class="form-check-label" for="wellness3">Nutrition and fitness planning</label>
+                        </div>
+                    </div>
+                    
+                    <div class="question">
+                        <h5>Which career resources interest you?</h5>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="career1">
+                            <label class="form-check-label" for="career1">Professional networking and mentorship</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="career2">
+                            <label class="form-check-label" for="career2">Salary negotiation tools</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="career3">
+                            <label class="form-check-label" for="career3">Workplace safety resources</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="submitQuestionnaire">Submit Answers</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome Page -->
+    <div id="welcome-page">
+        <nav class="navbar navbar-expand-lg navbar-light welcome-nav fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-shield-alt"></i> Herverse
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#welcomeNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="welcomeNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#home">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#features">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="welcome-login-btn">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-primary ms-2" href="#" id="welcome-register-btn">Register</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <header class="welcome-header">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <div class="hero-content">
+                            <h1 class="welcome-title">Empowering Women Through Technology</h1>
+                            <p class="welcome-subtitle">From safety alerts to health tracking, education to career growth - essential tools to transform your life and give you peace of mind wherever you go.</p>
+                            <div class="d-flex flex-wrap gap-2">
+                                <a href="#" class="btn btn-primary btn-lg mb-2 pulse" id="welcome-get-started">Get Started</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="welcome-content">
+            <div class="container">
+                <div class="row justify-content-center mb-5">
+                    <div class="col-lg-8 text-center">
+                        <h2 class="section-title">Why Herverse?</h2>
+                        <p class="text-muted">Our platform combines cutting-edge technology with a deep understanding of women's needs to create solutions that truly make a difference.</p>
+                    </div>
+                </div>
+
+                <div class="row welcome-features">
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3 class="feature-title">Safety First</h3>
+                            <p class="feature-description">Emergency features, real-time alerts, and location sharing that work even when your phone is locked.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h3 class="feature-title">Holistic Wellness</h3>
+                            <p class="feature-description">Comprehensive tools for physical, mental, and emotional wellbeing including period tracking and meditation guides.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <h3 class="feature-title">Career Growth</h3>
+                            <p class="feature-description">Resources to help you advance professionally with mentorship programs and skill-building courses.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="welcome-stats">
+                    <div class="container">
+                        <div class="row text-center">
+                            <div class="col-md-3">
+                                <div class="stat-box">
+                                    <div class="stat-number" id="activeUsers">0</div>
+                                    <div class="stat-label">Active Users</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-box">
+                                    <div class="stat-number">500</div>
+                                    <div class="stat-label">Emergencies Prevented</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-box">
+                                    <div class="stat-number">24/7</div>
+                                    <div class="stat-label">Support Available</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-box">
+                                    <div class="stat-number">95%</div>
+                                    <div class="stat-label">User Satisfaction</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="welcome-cta">
+                    <h2 class="section-title">Ready to take control of your safety and wellbeing?</h2>
+                    <p class="mb-4">Join thousands of women who trust Herverse for their safety and wellness needs.</p>
+                    <a href="#" class="btn btn-primary btn-lg pulse" id="welcome-join-now">Join Now</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 mb-4">
+                        <a href="#" class="footer-logo"><i class="fas fa-shield-alt me-2"></i>Herverse</a>
+                        <p class="footer-about">Empowering women through technology to live safer, healthier, and more fulfilling lives. Our mission is to create a world where every woman feels secure and supported.</p>
+                    </div>
+                    <div class="col-lg-2 col-md-4 mb-4">
+                        <div class="footer-links">
+                            <h5>Quick Links</h5>
+                            <ul>
+                                <li><a href="#home">Home</a></li>
+                                <li><a href="#features">Features</a></li>
+                                <li><a href="#" id="footer-faq-link">FAQs</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 mb-4">
+                        <div class="footer-links">
+                            <h5>Support</h5>
+                            <ul>
+                                <li><a href="#" data-bs-toggle="modal" data-bs-target="#supportModal">Contact Us</a></li>
+                                <li><a href="#" id="footer-privacy-link">Privacy Policy</a></li>
+                                <li><a href="#" id="footer-terms-link">Terms of Service</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 mb-4">
+                        <div class="footer-links">
+                            <h5>Contact</h5>
+                            <ul>
+                                <li><i class="fas fa-envelope me-2"></i> support@herverse.com</li>
+                                <li><i class="fas fa-phone me-2"></i> +91 9182515323</li>
+                                <li><i class="fas fa-map-marker-alt me-2"></i> Vijayawada</li>
+                                <li><i class="fas fa-clock me-2"></i> 24/7 Emergency Support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="copyright text-center">
+                    <p>&copy; 2023 Herverse. All rights reserved. | Made with <i class="fas fa-heart" style="color: #ff6b6b;"></i> for women's safety</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Auth Page -->
+    <div id="auth-page" style="display: none;">
+        <div class="auth-page-container">
+            <div class="auth-container">
+                <div class="auth-image">
+                    <div class="auth-image-content">         
+                    </div>
+                </div>
+                <div class="auth-content">
+                    <div class="auth-form-container">
+                        <div class="text-center mb-4">
+                            <div class="srm-auth-logo">
+                                <i class="fas fa-shield-alt"></i> Herverse
+                            </div>
+                            <h2 class="auth-title" id="auth-form-title">Welcome to Herverse </h2>
+                            <p class="auth-subtitle" id="auth-form-subtitle">Your complete women's wellness and safety platform</p>
+                        </div>
+
+                        <div id="auth-forms">
+                            <!-- Login Form (default visible) -->
+                            <div id="login-form">
+                                <form class="srm-auth-form" action="login.php" method="POST">
+                                    <div class="mb-3">
+                                        <input type="email" name="email" class="form-control" placeholder="Email Address" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="password" name="password" class="form-control" placeholder="Password" required>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                                        </div>
+                                        <a href="#" class="text-decoration-none" id="forgotPassword">Forgot password?</a>
+                                    </div>
+                                    <button type="submit" id="login-btn" class="btn btn-primary">Login</button>
+                                </form>
+                                <div class="srm-auth-footer text-center mt-3">
+                                    Don't have an account? <a href="#" id="show-register" class="text-decoration-none">Register</a>
+                                </div>
+                            </div>
+                            
+
+                            <!-- Register Form (hidden initially) -->
+                            <div id="register-form" style="display: none;">
+                                <form class="srm-auth-form" action="register.php" method="POST">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <input type="text" name="firstName" class="form-control" placeholder="First Name" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <input type="text" name="lastName" class="form-control" placeholder="Last Name" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="email" name="email" class="form-control" placeholder="Email Address" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="password" name="password" class="form-control" placeholder="Create Password" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="password" class="form-control" placeholder="Confirm Password" required>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                                        <label class="form-check-label" for="agreeTerms">
+                                            I agree to the <a href="#" id="terms-link" class="text-decoration-none">Terms & Conditions</a>
+                                        </label>
+                                    </div>
+                                    <button type="submit" id="register-btn" class="btn btn-primary">Register</button>
+                                </form>
+                                <div class="srm-auth-footer text-center mt-3">
+                                    Already have an account? <a href="#" id="show-login" class="text-decoration-none">Login</a>
+                                </div>
+                            </div>
+                            
+
+                            <!-- Forgot Password Form (hidden initially) -->
+                            <div id="forgot-password-form" style="display: none;">
+                                <form class="srm-auth-form">
+                                    <div class="mb-4">
+                                        <p>Enter your email address and we'll send you a link to reset your password.</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="email" class="form-control" placeholder="Email Address" required>
+                                    </div>
+                                    <button id="reset-password-btn" class="btn btn-primary">Reset Password</button>
+                                </form>
+                                <div class="srm-auth-footer text-center mt-3">
+                                    <a href="#" id="show-login-from-forgot" class="text-decoration-none">Back to login</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" style="display: none;">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-shield-alt"></i> Herverse
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#home" >Home</a>                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#features">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="nav-apps-link">Apps</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="nav-faq-link">FAQs</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle"></i> Account
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#accountModal"><i class="fas fa-user me-2"></i>My Profile</a></li>
+                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#settingsModal"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                                <li><a class="dropdown-item" href="feedback.html"><i class="fas fa-comment me-2"></i>Feedback</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="welcome-logout-btn"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section id="home" class="hero-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <div class="hero-content">
+                            <h1 class="hero-title">Your Safety & Wellness Companion</h1>
+                            <p class="hero-subtitle">From emergency alerts to health tracking, Herverse provides essential tools to keep you safe and healthy wherever you go.</p>
+                            <div class="d-flex flex-wrap gap-2">
+                                <a.htmf="#" id="main-apps-link" class="btn btn-primary btn-lg mb-2 pulse">View Apps</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="features-section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 text-center">
+                        <h2 class="section-title">Why Choose Herverse?</h2>
+                        <p class="mb-5" style="color: #666; max-width: 700px; margin: 0 auto;">We combine cutting-edge technology with a deep understanding of women's needs to create solutions that truly make a difference.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="feature-box">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3 class="feature-title">Safety First</h3>
+                            <p class="feature-description">Our top priority is your safety with emergency features, real-time alerts, and location sharing that work even when your phone is locked.</p>
+                            <a href="#" class="text-decoration-none feature-learn-more" data-feature="safety" style="color: var(--secondary-color); font-weight: 500;">Learn more <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-box">
+                            <div class="feature-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <h3 class="feature-title">Holistic Wellness</h3>
+                            <p class="feature-description">Comprehensive tools for physical, mental, and emotional wellbeing including period tracking, meditation guides, and nutrition plans.</p>
+                            <a href="#" class="text-decoration-none feature-learn-more" data-feature="safety" style="color: var(--secondary-color); font-weight: 500;">Learn more <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="feature-box">
+                            <div class="feature-icon">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <h3 class="feature-title">Career Growth</h3>
+                            <p class="feature-description">Resources to help you advance professionally with mentorship programs, salary negotiation tools, and skill-building courses.</p>
+                            <a href="#" class="text-decoration-none feature-learn-more" data-feature="safety" style="color: var(--secondary-color); font-weight: 500;">Learn more <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 mb-4">
+                        <a href="#" class="footer-logo"><i class="fas fa-shield-alt me-2"></i>Herverse</a>
+                        <p class="footer-about">Empowering women through technology to live safer, healthier, and more fulfilling lives. Our mission is to create a world where every woman feels secure and supported.</p>
+                    </div>
+                    <div class="col-lg-2 col-md-4 mb-4">
+                        <div class="footer-links">
+                            <h5>Quick Links</h5>
+                            <ul>
+                                <li><a href="#home">Home</a></li>
+                                <li><a href="#features">Features</a></li>
+                                 <li><a href="#" id="footer-apps-link">Apps</a></li>
+                                <li><a href="#" id="footer-faq-link-main">FAQs</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 mb-4">
+                        <div class="footer-links">
+                            <h5>Support</h5>
+                            <ul>
+                                <li><a href="#" data-bs-toggle="modal" data-bs-target="#supportModal">Contact Us</a></li>
+                                <li><a href="#" id="footer-privacy-link-main">Privacy Policy</a></li>
+                                <li><a href="#" id="footer-terms-link-main">Terms of Service</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 mb-4">
+                        <div class="footer-links">
+                            <h5>Contact</h5>
+                            <ul>
+                                <li><i class="fas fa-envelope me-2"></i> support@Herverse.com</li>
+                                <li><i class="fas fa-phone me-2"></i> +19 9182515323</li>
+                                <li><i class="fas fa-map-marker-alt me-2"></i> Vijayawada</li>
+                                <li><i class="fas fa-clock me-2"></i> 24/7 Emergency Support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="copyright text-center">
+                    <p>&copy; 2023 Herverse. All rights reserved. | Made with <i class="fas fa-heart" style="color: #ff6b6b;"></i> for women's safety</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Apps Page -->
+    <div id="apps-page" class="apps-page">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-shield-alt"></i> Herverse
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#appsNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="appsNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="apps-home-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="apps-features-link">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Apps</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="apps-faq-link">FAQs</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="appsDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle me-1"></i> Account
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" id="apps-account-link"><i class="fas fa-user me-2"></i> My Account</a></li>
+                                <li><a class="dropdown-item" href="#" id="apps-settings-link"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="apps-logout-btn"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="section-title">Our Safety & Wellness Apps</h2>
+                    <p class="mb-5" style="color: #666; max-width: 700px; margin: 0 auto;">Each app is designed with your safety and wellbeing in mind, offering specialized features for different aspects of your life.</p>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Safety Apps -->
+                <div class="col-md-4">
+                    <div class="app-card">
+                        <div class="app-icon" style="background-color: #ff6b6b;">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="app-title">Emergency SOS</h3>
+                        <p class="app-description">Instant emergency alerts with location sharing to trusted contacts and authorities with just one tap or voice command.</p>
+                        <a href="https://www.safetipin.com" target="_blank" class="btn btn-outline w-100 mt-3">Get Started</a>
+                        
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="app-card">
+                        <div class="app-icon" style="background-color: #5f27cd;">
+                            <i class="fas fa-map-marked-alt"></i>
+                        </div>
+                        <h3 class="app-title">Safe Routes</h3>
+                        <p class="app-description">AI-powered route planning with real-time safety alerts and alternative paths based on crowd-sourced safety data.</p>
+                        <a href="https://www.google.com/maps" target="_blank" class="btn btn-outline w-100 mt-3">Get Started</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="app-card">
+                        <div class="app-icon" style="background-color: #1dd1a1;">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <h3 class="app-title">Guardian Network</h3>
+                        <p class="app-description">Connect with trusted friends who can virtually accompany you and monitor your safety during travels.</p>
+                        <a href="https://zenly.com" target="_blank" class="btn btn-outline w-100 mt-3">Get Started</a>
+                    </div>
+                </div>
+                
+                <!-- Wellness Apps -->
+                <div class="col-md-4">
+                    <div class="app-card">
+                        <div class="app-icon" style="background-color: #6c5ce7;">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h3 class="app-title">Wellness Tracker</h3>
+                        <p class="app-description">Comprehensive health monitoring with personalized wellness recommendations and period tracking.</p>
+                        <a href="https://flo.health" target="_blank" class="btn btn-outline w-100 mt-3">Get Started</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="app-card">
+                        <div class="app-icon" style="background-color: #feca57;">
+                            <i class="fas fa-spa"></i>
+                        </div>
+                        <h3 class="app-title">Mindfulness</h3>
+                        <p class="app-description">Guided meditations, breathing exercises, and stress management tools tailored for women's mental wellbeing.</p>
+                        <a href="https://www.calm.com" target="_blank" class="btn btn-outline w-100 mt-3">Get Started</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="app-card">
+                        <div class="app-icon" style="background-color: #00d2d3;">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <h3 class="app-title">Fitness Companion</h3>
+                        <p class="app-description">
+                            Personalized workout plans and nutrition guides designed specifically for women's fitness needs.
+                        </p>
+                        <a href="https://fitonapp.com" target="_blank" class="btn btn-outline w-100 mt-3">Get Started</a>
+                    </div>
+                </div>
+                
+                
+            
+                <!-- Career Apps -->
+                <div class="col-md-4">
+                    <div class="app-card">
+                        <div class="app-icon" style="background-color: #ff9ff3;">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3 class="app-title">Career Network</h3>
+                        <p class="app-description">Connect with mentors and peers in your industry for professional growth and opportunities.</p>
+                        <a href="https://www.linkedin.com" target="_blank" class="btn btn-outline w-100 mt-3">Get Started</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="app-card">
+                        <div class="app-icon" style="background-color: #f368e0;">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3 class="app-title">Negotiation Coach</h3>
+                        <p class="app-description">Tools and guidance to help you negotiate salaries, promotions, and workplace conditions effectively.</p>
+                        <a href="https://www.glassdoor.com/Salaries" target="_blank" class="btn btn-outline w-100 mt-3">Get Started</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="app-card">
+                        <div class="app-icon" style="background-color: #ff9f43;">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3 class="app-title">Skill Builder</h3>
+                        <p class="app-description">Courses and resources to develop in-demand skills for career advancement.</p>
+                        <a href="https://www.coursera.org" target="_blank" class="btn btn-outline w-100 mt-3">Get Started</a>
+                    </div>
+                </div>
+                
+                <!-- Community Apps -->
+                <div class="col-md-4">
+                    <div class="app-card">
+                        <div class="app-icon" style="background-color: #ee5253;">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="app-title">Support Groups</h3>
+                        <p class="app-description">Safe spaces to connect with others facing similar challenges and share experiences.</p>
+                        <a href="https://www.7cups.com" target="_blank" class="btn btn-outline w-100 mt-3">Get Started</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="app-card">
+                        <div class="app-icon" style="background-color: #0abde3;">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <h3 class="app-title">Mentorship</h3>
+                        <p class="app-description">Find mentors or become one to help other women in their professional journeys.</p>
+                        <a href="https://www.mentoring.org" target="_blank" class="btn btn-outline w-100 mt-3">Get Started</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="app-card">
+                        <div class="app-icon" style="background-color: #10ac84;">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3 class="app-title">Discussion Forums</h3>
+                        <p class="app-description">Anonymous forums to discuss sensitive topics and get advice from the community.</p>
+                        <a href="https://www.reddit.com/r/TwoXChromosomes/" target="_blank" class="btn btn-outline w-100 mt-3">Get Started</a>
+                    </div>
+                </div>
+                
+                <!-- Specialized Safety Apps -->
+                <div class="col-md-4">
+                    <div class="app-card">
+                        <div class="app-icon" style="background-color: #5f27cd;">
+                            <i class="fas fa-taxi"></i>
+                        </div>
+                        <h3 class="app-title">Ride Safety</h3>
+                        <p class="app-description">Verify rideshare drivers and share trip details with trusted contacts automatically.</p>
+                        <a href="https://www.uber.com/features/safety/" target="_blank" class="btn btn-outline w-100 mt-3">Get Started</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="app-card">
+                        <div class="app-icon" style="background-color: #ff6b6b;">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3 class="app-title">Home Security</h3>
+                        <p class="app-description">Tools to enhance your home security and emergency preparedness.</p>
+                        <a href="https://www.ring.com" target="_blank" class="btn btn-outline w-100 mt-3">Get Started</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="app-card">
+                        <div class="app-icon" style="background-color: #1dd1a1;">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <h3 class="app-title">Workplace Safety</h3>
+                        <p class="app-description">Resources to identify and address harassment and discrimination in the workplace.</p>
+                        <a href="https://www.eeoc.gov" target="_blank" class="btn btn-outline w-100 mt-3">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 mb-4">
+                        <a href="#" class="footer-logo"><i class="fas fa-shield-alt me-2"></i>Herverse </a>
+                        <p class="footer-about">Empowering women through technology to live safer, healthier, and more fulfilling lives. Our mission is to create a world where every woman feels secure and supported.</p>
+                    </div>
+                    <div class="col-lg-2 col-md-4 mb-4">
+                        <div class="footer-links">
+                            <h5>Quick Links</h5>
+                            <ul>
+                                <li><a href="#" id="apps-footer-home-link">Home</a></li>
+                                <li><a href="#" id="apps-footer-features-link">Features</a></li>
+                                <li><a href="#">Apps</a></li>
+                                <li><a href="#" id="apps-footer-faq-link">FAQs</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 mb-4">
+                        <div class="footer-links">
+                            <h5>Support</h5>
+                            <ul>
+                                <li><a href="#" data-bs-toggle="modal" data-bs-target="#supportModal">Contact Us</a></li>
+                                <li><a href="#" id="apps-footer-privacy-link">Privacy Policy</a></li>
+                                <li><a href="#" id="apps-footer-terms-link">Terms of Service</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 mb-4">
+                        <div class="footer-links">
+                            <h5>Contact</h5>
+                            <ul>
+                                <li><i class="fas fa-envelope me-2"></i> support@Herverse .com</li>
+                                <li><i class="fas fa-phone me-2"></i> +91 9182515323</li>
+                                <li><i class="fas fa-map-marker-alt me-2"></i> Vijayawada</li>
+                                <li><i class="fas fa-clock me-2"></i> 24/7 Emergency Support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="copyright text-center">
+                    <p>&copy; 2023 Herverse . All rights reserved. | Made with <i class="fas fa-heart" style="color: #ff6b6b;"></i> for women's safety</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- FAQ Page -->
+    <div id="faq-page" class="faq-page">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-shield-alt"></i> Herverse 
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#faqNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="faqNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="faq-home-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="faq-features-link">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="faq-apps-link">Apps</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">FAQs</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="faqDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle me-1"></i> Account
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" id="faq-account-link"><i class="fas fa-user me-2"></i> My Account</a></li>
+                                <li><a class="dropdown-item" href="#" id="faq-settings-link"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="faq-logout-btn"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <p class="mb-5" style="color: #666; max-width: 700px; margin: 0 auto;">Find answers to common questions about Herverse  and our services</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item mb-3 border-0 shadow-sm">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                    Is Herverse  really free to use?
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes! Our basic safety features including Emergency SOS and location sharing are completely free. We offer premium subscriptions for advanced features like wellness tracking and career resources, but the core safety tools will always remain free.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item mb-3 border-0 shadow-sm">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                    How does the emergency alert work?
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    When you activate the emergency alert (by pressing the SOS button or using a voice command), Herverse immediately notifies your pre-selected emergency contacts with your live location. You can also choose to alert local authorities. The alert works even if your phone is locked or in your pocket.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item mb-3 border-0 shadow-sm">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                    Is my data private and secure?
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Absolutely. We use end-to-end encryption for all sensitive data and never share your information without your consent. You have full control over what data is collected and who can access it. Our privacy policy meets strict GDPR standards.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item mb-3 border-0 shadow-sm">
+                            <h2 class="accordion-header" id="headingFour">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                                    Can I use Herverse  when traveling abroad?
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes! Herverse  works worldwide. Our emergency alerts will notify your contacts regardless of location, and we provide country-specific safety information for travelers. The app automatically adjusts to local emergency numbers when available.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item mb-3 border-0 shadow-sm">
+                            <h2 class="accordion-header" id="headingFive">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+                                    How do I add emergency contacts?
+                                </button>
+                            </h2>
+                            <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    You can add emergency contacts in the app settings. Simply go to "My Profile" then "Emergency Contacts" and follow the prompts to add people from your phone contacts. These contacts will receive alerts when you activate the SOS feature.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>Still have questions? <a href="#" data-bs-toggle="modal" data-bs-target="#supportModal" class="text-decoration-none">Contact our support team</a> for help.</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 mb-4">
+                        <a href="#" class="footer-logo"><i class="fas fa-shield-alt me-2"></i>Herverse </a>
+                        <p class="footer-about">Empowering women through technology to live safer, healthier, and more fulfilling lives. Our mission is to create a world where every woman feels secure and supported.</p>
+                    </div>
+                    <div class="col-lg-2 col-md-4 mb-4">
+                        <div class="footer-links">
+                            <h5>Quick Links</h5>
+                            <ul>
+                                <li><a href="#" id="faq-footer-home-link">Home</a></li>
+                                <li><a href="#" id="faq-footer-features-link">Features</a></li>
+                                <li><a href="#" id="faq-footer-apps-link">Apps</a></li>
+                                <li><a href="#">FAQs</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 mb-4">
+                        <div class="footer-links">
+                            <h5>Support</h5>
+                            <ul>
+                                <li><a href="#" data-bs-toggle="modal" data-bs-target="#supportModal">Contact Us</a></li>
+                                <li><a href="#" id="faq-footer-privacy-link">Privacy Policy</a></li>
+                                <li><a href="#" id="faq-footer-terms-link">Terms of Service</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 mb-4">
+                        <div class="footer-links">
+                            <h5>Contact</h5>
+                            <ul>
+                                <li><i class="fas fa-envelope me-2"></i> support@Herverse .com</li>
+                                <li><i class="fas fa-phone me-2"></i> +91 9182515323</li>
+                                <li><i class="fas fa-map-marker-alt me-2"></i> Vijayawada</li>
+                                <li><i class="fas fa-clock me-2"></i> 24/7 Emergency Support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="copyright text-center">
+                    <p>&copy; 2023 Herverse . All rights reserved. | Made with <i class="fas fa-heart" style="color: #ff6b6b;"></i> for women's safety</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Privacy Policy Page -->
+    <div id="privacy-page" class="legal-page">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-shield-alt"></i> Herverse 
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#privacyNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="privacyNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="privacy-home-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="privacy-features-link">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="privacy-apps-link">Apps</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="privacy-faq-link">FAQs</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="privacyDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle me-1"></i> Account
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" id="privacy-account-link"><i class="fas fa-user me-2"></i> My Account</a></li>
+                                <li><a class="dropdown-item" href="#" id="privacy-settings-link"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="privacy-logout-btn"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="legal-content">
+                        <h2 class="section-title text-center mb-4">Privacy Policy</h2>
+                        <p><strong>Last Updated:</strong> June 1, 2023</p>
+                        
+                        <h4 class="mt-4">1. Introduction</h4>
+                        <p>Welcome to Herverse  ("we," "our," or "us"). We are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our services.</p>
+                        
+                        <h4 class="mt-4">2. Information We Collect</h4>
+                        <p>We may collect the following types of information:</p>
+                        <ul>
+                            <li><strong>Personal Information:</strong> Name, email address, phone number, and other contact details.</li>
+                            <li><strong>Location Data:</strong> When you use our safety features, we may collect your precise location data.</li>
+                            <li><strong>Usage Data:</strong> Information about how you interact with our services.</li>
+                            <li><strong>Device Information:</strong> Device type, operating system, and unique device identifiers.</li>
+                        </ul>
+                        
+                        <h4 class="mt-4">3. How We Use Your Information</h4>
+                        <p>We use the information we collect to:</p>
+                        <ul>
+                            <li>Provide and maintain our services</li>
+                            <li>Improve and personalize your experience</li>
+                            <li>Respond to emergency situations when you activate safety features</li>
+                            <li>Communicate with you about updates and security alerts</li>
+                            <li>Monitor and analyze usage patterns</li>
+                        </ul>
+                        
+                        <h4 class="mt-4">4. Data Security</h4>
+                        <p>We implement industry-standard security measures to protect your data, including encryption of sensitive information and secure server infrastructure. However, no method of transmission over the Internet is 100% secure.</p>
+                        
+                        <h4 class="mt-4">5. Data Sharing</h4>
+                        <p>We do not sell your personal information. We may share data in these circumstances:</p>
+                        <ul>
+                            <li>With emergency contacts you designate when you activate safety features</li>
+                            <li>With law enforcement when required by law or in emergency situations</li>
+                            <li>With service providers who assist us in operating our services (under strict confidentiality agreements)</li>
+                        </ul>
+                        
+                        <h4 class="mt-4">6. Your Rights</h4>
+                        <p>Depending on your location, you may have certain rights regarding your personal data, including:</p>
+                        <ul>
+                            <li>The right to access, update, or delete your information</li>
+                            <li>The right to opt-out of certain data collection</li>
+                            <li>The right to data portability</li>
+                        </ul>
+                        
+                        <h4 class="mt-4">7. Changes to This Policy</h4>
+                        <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "Last Updated" date.</p>
+                        
+                        <h4 class="mt-4">8. Contact Us</h4>
+                        <p>If you have any questions about this Privacy Policy, please contact us at privacy@herverse.com.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 mb-4">
+                        <a href="#" class="footer-logo"><i class="fas fa-shield-alt me-2"></i>Herverse </a>
+                        <p class="footer-about">Empowering women through technology to live safer, healthier, and more fulfilling lives. Our mission is to create a world where every woman feels secure and supported.</p>
+                    </div>
+                    <div class="col-lg-2 col-md-4 mb-4">
+                        <div class="footer-links">
+                            <h5>Quick Links</h5>
+                            <ul>
+                                <li><a href="#" id="privacy-footer-home-link">Home</a></li>
+                                <li><a href="#" id="privacy-footer-features-link">Features</a></li>
+                                <li><a href="#" id="privacy-footer-apps-link">Apps</a></li>
+                                <li><a href="#" id="privacy-footer-faq-link">FAQs</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 mb-4">
+                        <div class="footer-links">
+                            <h5>Support</h5>
+                            <ul>
+                                <li><a href="#" data-bs-toggle="modal" data-bs-target="#supportModal">Contact Us</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#" id="privacy-footer-terms-link">Terms of Service</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 mb-4">
+                        <div class="footer-links">
+                            <h5>Contact</h5>
+                            <ul>
+                                <li><i class="fas fa-envelope me-2"></i> support@Herverse .com</li>
+                                <li><i class="fas fa-phone me-2"></i> +91 9182515323</li>
+                                <li><i class="fas fa-map-marker-alt me-2"></i> Vijayawada</li>
+                                <li><i class="fas fa-clock me-2"></i> 24/7 Emergency Support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="copyright text-center">
+                    <p>&copy; 2023 Herverse . All rights reserved. | Made with <i class="fas fa-heart" style="color: #ff6b6b;"></i> for women's safety</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Terms of Service Page -->
+    <div id="terms-page" class="legal-page">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-shield-alt"></i> Herverse 
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#termsNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="termsNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="terms-home-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="terms-features-link">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="terms-apps-link">Apps</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="terms-faq-link">FAQs</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="termsDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle me-1"></i> Account
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" id="terms-account-link"><i class="fas fa-user me-2"></i> My Account</a></li>
+                                <li><a class="dropdown-item" href="#" id="terms-settings-link"><i class="fas fa-cog me-2"></i> Settings</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="terms-logout-btn"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="legal-content">
+                        <h2 class="section-title text-center mb-4">Terms of Service</h2>
+                        <p><strong>Last Updated:</strong> June 1, 2023</p>
+                        
+                        <h4 class="mt-4">1. Acceptance of Terms</h4>
+                        <p>By accessing or using Herverse  ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do not use the Service.</p>
+                        
+                        <h4 class="mt-4">2. Description of Service</h4>
+                        <p>Herverse provides a platform for women's safety and wellness, including emergency alert systems, safety tools, wellness tracking, and community features.</p>
+                        
+                        <h4 class="mt-4">3. User Responsibilities</h4>
+                        <p>As a user of Herverse, you agree to:</p>
+                        <ul>
+                            <li>Provide accurate and complete registration information</li>
+                            <li>Maintain the confidentiality of your account credentials</li>
+                            <li>Use the Service only for lawful purposes</li>
+                            <li>Not misuse the emergency features for non-emergency situations</li>
+                        </ul>
+                        
+                        <h4 class="mt-4">4. Emergency Services</h4>
+                        <p>Herverse  provides tools to alert your emergency contacts and, if you choose, local authorities. However:</p>
+                        <ul>
+                            <li>We cannot guarantee emergency responders will receive or respond to alerts</li>
+                            <li>You should always contact emergency services directly in life-threatening situations</li>
+                            <li>We are not responsible for the actions or inactions of emergency responders</li>
+                        </ul>
+                        
+                        <h4 class="mt-4">5. Subscription and Payments</h4>
+                        <p>Certain features may require payment. By subscribing, you agree to:</p>
+                        <ul>
+                            <li>Pay all applicable fees</li>
+                            <li>Authorize us to charge your payment method</li>
+                            <li>Understand that subscriptions automatically renew unless canceled</li>
+                        </ul>
+                        
+                        <h4 class="mt-4">6. Intellectual Property</h4>
+                        <p>All content and technology associated with the Service are owned by Herverse or its licensors and are protected by intellectual property laws.</p>
+                        
+                        <h4 class="mt-4">7. Limitation of Liability</h4>
+                        <p>To the maximum extent permitted by law, Herverse  shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of the Service.</p>
+                        
+                        <h4 class="mt-4">8. Termination</h4>
+                        <p>We may terminate or suspend your account immediately, without prior notice, for any violation of these Terms.</p>
+                        
+                        <h4 class="mt-4">9. Changes to Terms</h4>
+                        <p>We reserve the right to modify these Terms at any time. We will notify you of significant changes through the Service or by email.</p>
+                        
+                        <h4 class="mt-4">10. Governing Law</h4>
+                        <p>These Terms shall be governed by the laws of the State of California, without regard to its conflict of law provisions.</p>
+                        
+                        <h4 class="mt-4">11. Contact Us</h4>
+                        <p>If you have any questions about these Terms, please contact us at legal@Herverse .com.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 mb-4">
+                        <a href="#" class="footer-logo"><i class="fas fa-shield-alt me-2"></i>Herverse</a>
+                        <p class="footer-about">Empowering women through technology to live safer, healthier, and more fulfilling lives. Our mission is to create a world where every woman feels secure and supported.</p>
+                    </div>
+                    <div class="col-lg-2 col-md-4 mb-4">
+                        <div class="footer-links">
+                            <h5>Quick Links</h5>
+                            <ul>
+                                <li><a href="#" id="terms-footer-home-link">Home</a></li>
+                                <li><a href="#" id="terms-footer-features-link">Features</a></li>
+                                <li><a href="#" id="terms-footer-apps-link">Apps</a></li>
+                                <li><a href="#" id="terms-footer-faq-link">FAQs</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 mb-4">
+                        <div class="footer-links">
+                            <h5>Support</h5>
+                            <ul>
+                                <li><a href="#" data-bs-toggle="modal" data-bs-target="#supportModal">Contact Us</a></li>
+                                <li><a href="#" id="terms-footer-privacy-link">Privacy Policy</a></li>
+                                <li><a href="#">Terms of Service</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 mb-4">
+                        <div class="footer-links">
+                            <h5>Contact</h5>
+                            <ul>
+                                <li><i class="fas fa-envelope me-2"></i> support@Herverse.com</li>
+                                <li><i class="fas fa-phone me-2"></i> +91 9182515323</li>
+                                <li><i class="fas fa-map-marker-alt me-2"></i> Vijayawada</li>
+                                <li><i class="fas fa-clock me-2"></i> 24/7 Emergency Support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="copyright text-center">
+                    <p>&copy; 2023 Herverse. All rights reserved. | Made with <i class="fas fa-heart" style="color: #ff6b6b;"></i> for women's safety</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   
+
+    <script src="script.js"></script>
+
+</body>
+</html>
